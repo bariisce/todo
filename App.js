@@ -1,11 +1,55 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState} from 'react';
+import { StyleSheet, Text, View} from 'react-native';
+import ToDoList from './src/components/ToDoCard/ToDoList';
+import ToDoInput from './src/components/ToDoCard/ToDoInput';
 
-export default function App() {
+function App() {
+  const [count, setCount] = useState(0);
+
+  function increaseCount() {
+    setCount(count + 1);
+  }
+  function decreaseCount() {
+    if (count > 0) {
+      setCount(count - 1);
+    }
+  }
+
+
+  const [task, setTask] = useState('')
+  const [taskItems, setTaskItems] = useState([]);
+
+
+  const handleAddTask = () => {
+    setTaskItems([...taskItems, { text: task, completed: false }]);
+    setTask('');
+    increaseCount();
+  }
+
+  const handleCompleteTask = index => {
+    const newTaskItems = [...taskItems];
+    newTaskItems[index].completed = !newTaskItems[index].completed;
+
+    if (newTaskItems[index].completed) {
+      decreaseCount();
+    } else {
+      increaseCount();
+    }
+
+    setTaskItems(newTaskItems);
+  }
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <View style = {styles.top_container}>
+        <Text style= {styles.title}>To Do</Text>
+        <Text style= {styles.title}>{count}</Text>
+      </View>
+      
+      <ToDoList taskItems={taskItems} handleCompleteTask={handleCompleteTask}/>
+
+      <View style = {styles.bottom_container}>
+        <ToDoInput task={task} setTask={setTask} handleAddTask={handleAddTask} />
+      </View>
     </View>
   );
 }
@@ -13,8 +57,22 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#2E3458"
   },
-});
+  top_container: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 10
+  },
+  title: {
+    margin: 10,
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#D23369"
+  },
+  bottom_container: {
+    justifyContent: "flex-end",
+  }
+})
+
+export default App;
