@@ -46,5 +46,17 @@ export default StyleSheet.create({
   buttonText: {
     color: "white",
     textAlign: "center",
-  }
+  },
+  editButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    padding: 10,
+    backgroundColor: 'orange',
+    borderRadius: 5,
+  },
+  editButtonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
 })
